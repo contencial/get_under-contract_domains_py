@@ -74,19 +74,19 @@ def get_domain_info():
         driver.find_element_by_id("session_password").send_keys(password)
         driver.find_element_by_name("button").send_keys(Keys.ENTER)
         
-        logger.debug('muu_muu_domain: login')
+        logger.info('muu_muu_domain: login')
         sleep(10)
         
         driver.find_element_by_link_text("ドメイン一覧(すべて)へ").send_keys(Keys.ENTER)
         
-        logger.debug('muu_muu_domain: go to all-domain-list')
+        logger.info('muu_muu_domain: go to all-domain-list')
         sleep(10)
         
         dropdown = driver.find_element_by_name("limit")
         select = Select(dropdown)
         select.select_by_value('1000')
         
-        logger.debug('muu_muu_domain: select 1000')
+        logger.info('muu_muu_domain: select 1000')
         sleep(30)
         
         contents = BeautifulSoup(driver.page_source, "lxml")
@@ -98,5 +98,5 @@ def get_domain_info():
 
         return domain_info
     except Exception as err:
-        logger.debug(f'Error: muu_muu_domain: get_domain_info: {err}')
+        logger.error(f'Error: muu_muu_domain: get_domain_info: {err}')
         return None

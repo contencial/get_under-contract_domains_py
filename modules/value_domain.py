@@ -30,7 +30,7 @@ def get_list_number(value_domain_url, headers):
         logger.debug(f'value_domain: list_number: {list_number}')
         return list_number
     except Exception as err:
-        logger.debug(f'Error: value_domain: get_list_number: {err}')
+        logger.error(f'Error: value_domain: get_list_number: {err}')
         return None
 
 def get_domain_info():
@@ -47,5 +47,5 @@ def get_domain_info():
         logger.debug(f'value_domain: total_list_number: {len(domain_info)}')
         return domain_info
     except Exception as err:
-        logger.debug(f'Error: value_domain: get_domain_info: {err}')
+        logger.error(f'Error: value_domain: get_domain_info: {err}')
         return None

@@ -44,9 +44,9 @@ def audio_to_text(driver, mp3Path, audioToTextDelay):
 def request_audio_file(href, filename):
     logger.debug(f'by_pass_captcha: href: {href}')
     response = requests.get(href, stream=True)
-    logger.debug(f'by_pass_captcha: request_audio_file: {response.status_code}')
+    logger.info(f'by_pass_captcha: request_audio_file: {response.status_code}')
     if response.status_code != 200:
-        logger.debug(f'by_pass_captcha: request_audio_file: try again')
+        logger.info(f'by_pass_captcha: request_audio_file: try again')
         request_audio_file(href, filename)
     with open(filename, "wb") as handle:
         for data in response.iter_content():
@@ -93,23 +93,23 @@ def by_pass_captcha(driver):
                 inputbtn = driver.find_element_by_id('audio-response')
                 inputbtn.send_keys(response)
                 inputbtn.send_keys(Keys.ENTER)
-                logger.debug("by_pass_captcha: send audio answer")
+                logger.info("by_pass_captcha: send audio answer")
                 time.sleep(random.randint(8, 11))
 
                 driver.switch_to.default_content()
                 contents = BeautifulSoup(driver.page_source, "html.parser")
 
                 if contents.find("title", text="お名前.com Navi"):
-                    logger.debug("by_pass_captcha: Success")
+                    logger.info("by_pass_captcha: Success")
                     return True
 
                 driver.switch_to.frame(iframe)
         except Exception as err:
             with open("error_page_source.txt", "w") as handle:
                 handle.write(driver.page_source)
-            logger.debug(f'by_pass_captcha: {err}')
-            logger.debug('by_pass_captcha: Caught. Need to change proxy now')
+            logger.error(f'by_pass_captcha: {err}')
+            logger.error('by_pass_captcha: Caught. Need to change proxy now')
             return False
     else:
-        logger.debug('by_pass_captcha: Button not found. This should not happen.')
+        logger.error('by_pass_captcha: Button not found. This should not happen.')
         return False

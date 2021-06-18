@@ -5,7 +5,8 @@ import gspread # to manipulate spreadsheet
 from oauth2client.service_account import ServiceAccountCredentials # to access Google API
 
 # Logger setting
-from logging import getLogger, StreamHandler, DEBUG
+from logging import basicConfig, getLogger, StreamHandler, DEBUG
+basicConfig(filename='result.log', level=DEBUG)
 logger = getLogger(__name__)
 handler = StreamHandler()
 handler.setLevel(DEBUG)
@@ -64,21 +65,21 @@ if __name__ == '__main__':
         domain_info = modules.value_domain.get_domain_info()
         logger.debug(f'main: add value_domain: {len(domain_info)}')
         if not domain_info:
-            logger.debug("Error: value_domain: get_domain_info")
+            logger.error("Error: value_domain: get_domain_info")
             exit(1)
         domain_chunk = modules.muu_muu_domain.get_domain_info()
         if not domain_chunk:
-            logger.debug("Error: muu_muu_domain: get_domain_info")
+            logger.error("Error: muu_muu_domain: get_domain_info")
             exit(1)
         domain_info.extend(domain_chunk)
         logger.debug(f'main: add muu_muu_domain: {len(domain_info)}')
         domain_chunk = modules.onamae_com.get_domain_info()
         if not domain_chunk:
-            logger.debug("Error: onamae_com: get_domain_info")
+            logger.error("Error: onamae_com: get_domain_info")
             exit(1)
         domain_info.extend(domain_chunk)
         logger.debug(f'main: add onamae_com: {len(domain_info)}')
         write_domain_list(domain_info)
-        logger.debug('Finish')
+        logger.info('Finish')
     except Exception as err:
-        logger.debug(f'main: {err}')
+        logger.error(f'main: {err}')

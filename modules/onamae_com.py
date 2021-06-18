@@ -97,14 +97,14 @@ def get_domain_info():
         driver.find_element_by_tag_name("button").click()
         sleep(10)
 
-        logger.debug("onamae_com: check if g-recaptcha exists")
+        logger.info("onamae_com: check if g-recaptcha exists")
         if check_exists_by_class_name(driver, "g-recaptcha"):
             ret = by_pass_captcha(driver)
             if ret == False:
                 raise Exception
             sleep(10)
 
-        logger.debug('onamae_com: login')
+        logger.info('onamae_com: login')
         sleep(5)
 
         if not check_exists_by_name(driver, "select1"):
@@ -117,12 +117,12 @@ def get_domain_info():
         select = Select(dropdown)
         select.select_by_value('100')
         
-        logger.debug('onamae_com: select 100')
+        logger.info('onamae_com: select 100')
         sleep(30)
 
         nav = driver.find_element_by_xpath('//ul[@class="nav-Pagination"]')
         paging = nav.find_elements_by_tag_name("a")
-        logger.debug(f'paging: {len(paging) - 2}')
+        logger.info(f'paging: {len(paging) - 2}')
         
         contents = BeautifulSoup(driver.page_source, "html.parser")
         domain_info = list(parse_contents(contents.find_all("tr", target="tblFixed"), contents.find_all("tr", target="tblwrap")))
@@ -145,6 +145,5 @@ def get_domain_info():
 
         return domain_info
     except Exception as err:
-        logger.debug(f'Error: onamae_com: get_domain_info: {err}')
-        logger.debug(traceback.format_exc())
+        logger.error(f'Error: onamae_com: get_domain_info: {err}')
         return None
