@@ -1,5 +1,6 @@
-import modules
 import os
+import modules
+import datetime
 import gspread # to manipulate spreadsheet
 from oauth2client.service_account import ServiceAccountCredentials # to access Google API
 
@@ -47,12 +48,13 @@ def write_domain_list(domain_info):
         i += 1
     sheet.update_cells(cell_list)
     
-    cell_list = sheet.range('F1:J1')
+    cell_list = sheet.range('F1:K1')
     cell_list[0].value = 'Size'
     cell_list[1].value = len(domain_info)
-    cell_list[2].value = '=HYPERLINK("https://www.value-domain.com/login.php", "Go to バリュー")'
-    cell_list[3].value = '=HYPERLINK("https://muumuu-domain.com/?mode=conpane", "Go to ムームー")'
-    cell_list[4].value = '=HYPERLINK("https://navi.onamae.com/domain", "Go to お名前")'
+    cell_list[2].value = datetime.datetime.now().strftime('%Y-%m-%d')
+    cell_list[3].value = '=HYPERLINK("https://www.value-domain.com/login.php", "Go to バリュー")'
+    cell_list[4].value = '=HYPERLINK("https://muumuu-domain.com/?mode=conpane", "Go to ムームー")'
+    cell_list[5].value = '=HYPERLINK("https://navi.onamae.com/domain", "Go to お名前")'
     sheet.update_cells(cell_list, value_input_option='USER_ENTERED')
 
 ### main_script ###
