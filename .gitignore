@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# temporary files
+modules/__pycache__
+error_page_source.txt
+test.mp3
+spreadsheet.json
