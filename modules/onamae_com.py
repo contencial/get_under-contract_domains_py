@@ -83,7 +83,7 @@ def get_domain_info():
     options = Options()
     options.add_argument("--disable-notifications")
     options.add_argument("--mute-audio")
-    options.add_argument(ua.chrome)
+    options.add_argument(f'user-agent={ua.chrome}')
 #    options.add_argument('--headless')
     
     try:

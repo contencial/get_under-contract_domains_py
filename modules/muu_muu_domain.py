@@ -62,8 +62,8 @@ def get_domain_info():
 
     options = Options()
     options.add_argument('--headless')
-    options.add_argument(ua.chrome)
-    
+    options.add_argument(f'user-agent={ua.chrome}')
+
     try:
         driver = webdriver.Chrome(executable_path=webdriverPath, chrome_options=options)
         
