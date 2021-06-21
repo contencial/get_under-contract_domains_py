@@ -23,7 +23,7 @@ def write_domain_list(domain_info):
     sheet = gc.open_by_key(SPREADSHEET_ID).worksheet('契約中ドメイン一覧')
 
     sheet.clear()
-    cell_list = sheet.range(1, 1, len(domain_info) + 1, 5)
+    cell_list = sheet.range(1, 1, len(domain_info) + 1, 6)
     i = 0
     for cell in cell_list:
         if (i == 0):
@@ -36,20 +36,24 @@ def write_domain_list(domain_info):
             cell.value = '有効期限'
         elif (i == 4):
             cell.value = '自動更新\nフラグ'
-        elif (i % 5 == 0):
-            cell.value = int(i / 5)
-        elif (i % 5 == 1):
-            cell.value = domain_info[int(i / 5) - 1][0]
-        elif (i % 5 == 2):
-            cell.value = domain_info[int(i / 5) - 1][1]
-        elif (i % 5 == 3):
-            cell.value = domain_info[int(i / 5) - 1][2]
-        elif (i % 5 == 4):
-            cell.value = domain_info[int(i / 5) - 1][3]
+        elif (i == 5):
+            cell.value = '自動更新\n対象'
+        elif (i % 6 == 0):
+            cell.value = int(i / 6)
+        elif (i % 6 == 1):
+            cell.value = domain_info[int(i / 6) - 1][0]
+        elif (i % 6 == 2):
+            cell.value = domain_info[int(i / 6) - 1][1]
+        elif (i % 6 == 3):
+            cell.value = domain_info[int(i / 6) - 1][2]
+        elif (i % 6 == 4):
+            cell.value = domain_info[int(i / 6) - 1][3]
+        elif (i % 6 == 5):
+            cell.value = domain_info[int(i / 6) - 1][4]
         i += 1
-    sheet.update_cells(cell_list)
+    sheet.update_cells(cell_list, value_input_option='USER_ENTERED')
     
-    cell_list = sheet.range('F1:K1')
+    cell_list = sheet.range('G1:L1')
     cell_list[0].value = 'Size'
     cell_list[1].value = len(domain_info)
     cell_list[2].value = datetime.datetime.now().strftime('%Y-%m-%d')

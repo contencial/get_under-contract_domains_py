@@ -20,7 +20,10 @@ def parse_body(results):
         edate = datetime.datetime.strptime(expiration_date, "%Y/%m/%d")
         if datetime.date(edate.year, edate.month, edate.day) < datetime.date.today():
             continue
-        yield [domain["domainname"], "バリュー", expiration_date, domain["autorenew"]]
+        autorenew_target = "-"
+        if domain["autorenew"] == 1:
+            autorenew_target = f'=IF(COUNTIF(\'ドメイン自動更新管理\'!B4:B63, "{domain["domainname"]}"), "対象", "対象外")'
+        yield [domain["domainname"], "バリュー", expiration_date, domain["autorenew"], autorenew_target]
 
 def get_list_number(value_domain_url, headers):
     try:
