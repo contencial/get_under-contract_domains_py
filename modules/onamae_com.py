@@ -13,9 +13,10 @@ from fake_useragent import UserAgent
 from modules.by_pass_captcha import by_pass_captcha
 
 # Logger setting
-from logging import getLogger, StreamHandler, DEBUG
+from logging import getLogger, FileHandler, DEBUG
 logger = getLogger(__name__)
-handler = StreamHandler()
+today = datetime.datetime.now()
+handler = FileHandler(f'log/{today.strftime("%Y-%m-%d")}_result.log', mode='a')
 handler.setLevel(DEBUG)
 logger.setLevel(DEBUG)
 logger.addHandler(handler)
@@ -97,9 +98,7 @@ def get_domain_info():
         driver.set_window_size(1200, 1053)
 
         driver.find_element_by_name("loginId").send_keys(login)
-        sleep(random.randint(2, 5))
         driver.find_element_by_name("loginPassword").send_keys(password)
-        sleep(random.randint(2, 5))
         driver.find_element_by_tag_name("button").click()
         sleep(random.randint(7, 11))
 

@@ -5,9 +5,10 @@ import datetime
 import requests
 
 # Logger setting
-from logging import getLogger, StreamHandler, DEBUG
+from logging import getLogger, FileHandler, DEBUG
 logger = getLogger(__name__)
-handler = StreamHandler()
+today = datetime.datetime.now()
+handler = FileHandler(f'log/{today.strftime("%Y-%m-%d")}_result.log', mode='a')
 handler.setLevel(DEBUG)
 logger.setLevel(DEBUG)
 logger.addHandler(handler)
