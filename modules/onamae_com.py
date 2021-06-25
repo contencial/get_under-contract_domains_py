@@ -1,5 +1,6 @@
 import os
 import re
+import random
 import datetime
 from time import sleep
 from bs4 import BeautifulSoup
@@ -96,9 +97,11 @@ def get_domain_info():
         driver.set_window_size(1200, 1053)
 
         driver.find_element_by_name("loginId").send_keys(login)
+        sleep(random.randint(2, 5))
         driver.find_element_by_name("loginPassword").send_keys(password)
+        sleep(random.randint(2, 5))
         driver.find_element_by_tag_name("button").click()
-        sleep(10)
+        sleep(random.randint(7, 11))
 
         logger.info("onamae_com: check if g-recaptcha exists")
         if check_exists_by_class_name(driver, "g-recaptcha"):
