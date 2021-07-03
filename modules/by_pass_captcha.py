@@ -95,7 +95,7 @@ def by_pass_captcha(driver):
                 inputbtn.send_keys(response)
                 inputbtn.send_keys(Keys.ENTER)
                 logger.info("by_pass_captcha: send audio answer")
-                time.sleep(2)
+                time.sleep(7)
 
                 driver.switch_to.default_content()
                 contents = BeautifulSoup(driver.page_source, "html.parser")
