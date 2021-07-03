@@ -79,19 +79,19 @@ def get_domain_info():
         driver.find_element_by_name("button").send_keys(Keys.ENTER)
         
         logger.info('muu_muu_domain: login')
-        sleep(10)
+        sleep(5)
         
         driver.find_element_by_link_text("ドメイン一覧(すべて)へ").send_keys(Keys.ENTER)
         
         logger.info('muu_muu_domain: go to all-domain-list')
-        sleep(10)
+        sleep(5)
         
         dropdown = driver.find_element_by_name("limit")
         select = Select(dropdown)
         select.select_by_value('1000')
         
         logger.info('muu_muu_domain: select 1000')
-        sleep(30)
+        sleep(15)
         
         contents = BeautifulSoup(driver.page_source, "lxml")
         domain_info = list(parse_contents(contents.find_all(class_="conpane-card")))
