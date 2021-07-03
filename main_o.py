@@ -56,8 +56,8 @@ def write_domain_list(domain_info):
     cell_list = sheet.range('G1:J1')
     cell_list[0].value = 'Size'
     cell_list[1].value = len(domain_info)
-    cell_list[2].value = '=HYPERLINK("https://navi.onamae.com/domain", "Go to お名前")'
-    cell_list[3].value = datetime.datetime.now().strftime('%Y-%m-%d')
+    cell_list[2].value = datetime.datetime.now().strftime('%Y-%m-%d')
+    cell_list[3].value = '=HYPERLINK("https://navi.onamae.com/domain", "Go to お名前")'
     sheet.update_cells(cell_list, value_input_option='USER_ENTERED')
 
 ### main_script ###
