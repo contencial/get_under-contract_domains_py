@@ -5,7 +5,6 @@ from selenium.webdriver.common.by import By
 import datetime
 import os, sys
 import time,requests
-import random
 from bs4 import BeautifulSoup
 
 # Logger setting
@@ -90,13 +89,13 @@ def by_pass_captcha(driver):
                 driver.switch_to.default_content()
                 iframe = driver.find_elements_by_tag_name('iframe')[audioBtnIndex]
                 driver.switch_to.frame(iframe)
-                time.sleep(random.randint(5, 10))
+                time.sleep(2)
     
                 inputbtn = driver.find_element_by_id('audio-response')
                 inputbtn.send_keys(response)
                 inputbtn.send_keys(Keys.ENTER)
                 logger.info("by_pass_captcha: send audio answer")
-                time.sleep(random.randint(8, 11))
+                time.sleep(2)
 
                 driver.switch_to.default_content()
                 contents = BeautifulSoup(driver.page_source, "html.parser")
