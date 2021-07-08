@@ -71,5 +71,7 @@ if __name__ == '__main__':
         logger.debug(f'main: muu_muu_domain: {len(domain_info)}')
         write_domain_list(domain_info)
         logger.info('Finish')
+        exit(0)
     except Exception as err:
         logger.error(f'main: {err}')
+        exit(1)
