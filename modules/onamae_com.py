@@ -73,7 +73,7 @@ def parse_contents(tblFixed, tblwrap):
         domain_name = tblFixed[i].get_text()
         autorenew_target = "-"
         if autorenew == 1:
-            autorenew_target = f'=IF(COUNTIF(\'ドメイン自動更新管理\'!B4:B63, "{domain_name}"), "対象", "対象外")'
+            autorenew_target = f'=IF(COUNTIF(\'ドメイン自動更新管理\'!B:B, "{domain_name}"), "対象", "対象外")'
         yield [domain_name, "お名前", expiration_date, autorenew, autorenew_target]
 
 def get_domain_info():

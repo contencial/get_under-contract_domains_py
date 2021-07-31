@@ -52,7 +52,7 @@ def parse_contents(conpane_cards):
         domain_name = text[:start].replace(' ', '').replace('\n', '')
         autorenew_target = "-"
         if autorenew == 1:
-            autorenew_target = f'=IF(COUNTIF(\'ドメイン自動更新管理\'!B4:B63, "{domain_name}"), "対象", "対象外")'
+            autorenew_target = f'=IF(COUNTIF(\'ドメイン自動更新管理\'!B:B, "{domain_name}"), "対象", "対象外")'
         yield [domain_name, "ムームー", expiration_date, autorenew, autorenew_target]
 
 def get_domain_info():
