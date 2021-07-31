@@ -37,7 +37,7 @@ def write_domain_list(domain_info):
         elif (i == 4):
             cell.value = '自動更新\nフラグ'
         elif (i == 5):
-            cell.value = '自動更新\n対象'
+            cell.value = '自動更新\n管理対象'
         elif (i % 6 == 0):
             cell.value = int(i / 6)
         elif (i % 6 == 1):
