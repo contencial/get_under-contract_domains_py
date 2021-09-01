@@ -8,6 +8,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
 from fake_useragent import UserAgent
+from webdriver_manager.chrome import ChromeDriverManager
 
 # Logger setting
 from logging import getLogger, FileHandler, DEBUG
@@ -59,7 +60,6 @@ def get_domain_info():
     url = "https://muumuu-domain.com/checkout/login"
     login = os.environ["MUU_MUU_ID"]
     password = os.environ["MUU_MUU_PASS"]
-    webdriverPath = os.environ["WEBDRIVER_PATH"]
     
     ua = UserAgent()
     logger.debug(f'muu_muu_domain: UserAgent: {ua.chrome}')
@@ -69,7 +69,7 @@ def get_domain_info():
     options.add_argument(f'user-agent={ua.chrome}')
 
     try:
-        driver = webdriver.Chrome(executable_path=webdriverPath, chrome_options=options)
+        driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
         
         driver.get(url)
         driver.set_window_size(1200, 1053)
