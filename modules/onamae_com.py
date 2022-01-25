@@ -125,23 +125,28 @@ def get_domain_info():
         logger.info('onamae_com: select 100')
         sleep(30)
 
-        nav = driver.find_element_by_xpath('//ul[@class="nav-Pagination"]')
-        paging = nav.find_elements_by_tag_name("a")
-        logger.info(f'paging: {len(paging) - 2}')
+        try:
+            nav = driver.find_element_by_xpath('//ul[@class="nav-Pagination"]')
+            paging = nav.find_elements_by_tag_name("a")
+            logger.info(f'paging: {len(paging) - 2}')
         
-        contents = BeautifulSoup(driver.page_source, "html.parser")
-        domain_info = list(parse_contents(contents.find_all("tr", target="tblFixed"), contents.find_all("tr", target="tblwrap")))
-        logger.debug(f'page: 1: {len(domain_info)}')
-
-        for i in range(len(paging)):
-            if i == 0 or i == 1 or i == len(paging) - 1:
-                continue
-            paging[i].click()
-            sleep(20)
             contents = BeautifulSoup(driver.page_source, "html.parser")
-            domain_chunk = list(parse_contents(contents.find_all("tr", target="tblFixed"), contents.find_all("tr", target="tblwrap")))
-            logger.debug(f'page: {i}: {len(domain_chunk)}')
-            domain_info.extend(domain_chunk)
+            domain_info = list(parse_contents(contents.find_all("tr", target="tblFixed"), contents.find_all("tr", target="tblwrap")))
+            logger.debug(f'page: 1: {len(domain_info)}')
+
+            for i in range(len(paging)):
+                if i == 0 or i == 1 or i == len(paging) - 1:
+                    continue
+                paging[i].click()
+                sleep(20)
+                contents = BeautifulSoup(driver.page_source, "html.parser")
+                domain_chunk = list(parse_contents(contents.find_all("tr", target="tblFixed"), contents.find_all("tr", target="tblwrap")))
+                logger.debug(f'page: {i}: {len(domain_chunk)}')
+                domain_info.extend(domain_chunk)
+        except:
+            contents = BeautifulSoup(driver.page_source, "html.parser")
+            domain_info = list(parse_contents(contents.find_all("tr", target="tblFixed"), contents.find_all("tr", target="tblwrap")))
+            logger.debug(f'page: 1: {len(domain_info)}')
 
         logger.debug(f'onamae_com: total_list_number: {len(domain_info)}')
 
