@@ -27,14 +27,14 @@ def audio_to_text(driver, mp3Path, audioToTextDelay):
 
     # Upload file 
     time.sleep(1)
-    root = driver.find_element_by_id('root').find_elements_by_class_name('dropzone _container _container_large')
+    root = driver.find_element(By.ID, 'root').find_elements(By.CLASS_NAME, 'dropzone _container _container_large')
     btn = driver.find_element(By.XPATH, '//*[@id="root"]/div/input')
     btn.send_keys(mp3Path)
 
     # Audio to text is processing
     time.sleep(audioToTextDelay)
 
-    text = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[7]/div/div/div').find_elements_by_tag_name('span')
+    text = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[7]/div/div/div').find_elements(By.TAG_NAME, 'span')
     result = " ".join( [ each.text for each in text ] )
 
     driver.close()
@@ -58,18 +58,18 @@ def by_pass_captcha(driver):
     audioToTextDelay = 10
     filename = 'test.mp3'
 
-    allIframesLen = driver.find_elements_by_tag_name('iframe')
+    allIframesLen = driver.find_elements(By.TAG_NAME, 'iframe')
     audioBtnFound = False
     audioBtnIndex = -1
     
     logger.debug("by_pass_captcha: find iframe")
     for index in range(len(allIframesLen)):
         driver.switch_to.default_content()
-        iframe = driver.find_elements_by_tag_name('iframe')[index]
+        iframe = driver.find_elements(By.TAG_NAME, 'iframe')[index]
         driver.switch_to.frame(iframe)
         driver.implicitly_wait(delayTime)
         try:
-            audioBtn = driver.find_element_by_id('recaptcha-audio-button') or driver.find_element_by_id('recaptcha-anchor')
+            audioBtn = driver.find_element(By.ID, 'recaptcha-audio-button') or driver.find_element(By.ID, 'recaptcha-anchor')
             audioBtn.click()
             audioBtnFound = True
             audioBtnIndex = index
@@ -81,17 +81,17 @@ def by_pass_captcha(driver):
     if audioBtnFound:
         try:
             while True:
-                href = driver.find_element_by_id('audio-source').get_attribute('src')
+                href = driver.find_element(By.ID, 'audio-source').get_attribute('src')
                 request_audio_file(href, filename)
                 response = audio_to_text(driver, os.getcwd() + '/' + filename, audioToTextDelay)
                 logger.debug(response)
     
                 driver.switch_to.default_content()
-                iframe = driver.find_elements_by_tag_name('iframe')[audioBtnIndex]
+                iframe = driver.find_elements(By.TAG_NAME, 'iframe')[audioBtnIndex]
                 driver.switch_to.frame(iframe)
                 time.sleep(2)
     
-                inputbtn = driver.find_element_by_id('audio-response')
+                inputbtn = driver.find_element(By.ID, 'audio-response')
                 inputbtn.send_keys(response)
                 inputbtn.send_keys(Keys.ENTER)
                 logger.info("by_pass_captcha: send audio answer")

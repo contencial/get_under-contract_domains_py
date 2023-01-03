@@ -8,6 +8,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome import service as fs
 from selenium.common.exceptions import NoSuchElementException 
 from fake_useragent import UserAgent
 from modules.by_pass_captcha import by_pass_captcha
@@ -26,14 +28,14 @@ logger.propagate = False
 ### functions ###
 def check_exists_by_name(driver, name):
     try:
-        driver.find_element_by_name(name)
+        driver.find_element(By.NAME, name)
     except NoSuchElementException:
         return False
     return True
 
 def check_exists_by_class_name(driver, class_name):
     try:
-        driver.find_element_by_class_name(class_name)
+        driver.find_element(By.CLASS_NAME, class_name)
     except NoSuchElementException:
         return False
     return True
@@ -92,14 +94,15 @@ def get_domain_info():
 #   options.add_argument('--headless')
     
     try:
-        driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+        chrome_service = fs.Service(executable_path=ChromeDriverManager().install())
+        driver = webdriver.Chrome(service=chrome_service, options=options)
         
         driver.get(url)
         driver.set_window_size(1200, 1053)
 
-        driver.find_element_by_name("loginId").send_keys(login)
-        driver.find_element_by_name("loginPassword").send_keys(password)
-        driver.find_element_by_tag_name("button").click()
+        driver.find_element(By.NAME, "loginId").send_keys(login)
+        driver.find_element(By.NAME, "loginPassword").send_keys(password)
+        driver.find_element(By.TAG_NAME, "button").click()
         sleep(random.randint(7, 11))
 
         logger.info("onamae_com: check if g-recaptcha exists")
@@ -113,12 +116,12 @@ def get_domain_info():
         sleep(5)
 
         if not check_exists_by_name(driver, "select1"):
-            driver.find_element_by_link_text("TOP").click()
+            driver.find_element(By.LINK_TEXT, "TOP").click()
             sleep(5)
-            driver.find_element_by_xpath('//button[@data-gtmvalue="usagesituation_domain"]').click()
+            driver.find_element(By.XPATH, '//button[@data-gtmvalue="usagesituation_domain"]').click()
             sleep(10)
 
-        dropdown = driver.find_element_by_name("select1")
+        dropdown = driver.find_element(By.NAME, "select1")
         select = Select(dropdown)
         select.select_by_value('100')
         
@@ -126,8 +129,8 @@ def get_domain_info():
         sleep(30)
 
         try:
-            nav = driver.find_element_by_xpath('//ul[@class="nav-Pagination"]')
-            paging = nav.find_elements_by_tag_name("a")
+            nav = driver.find_element(By.XPATH, '//ul[@class="nav-Pagination"]')
+            paging = nav.find_elements(By.TAG_NAME, "a")
             logger.info(f'paging: {len(paging) - 2}')
         
             contents = BeautifulSoup(driver.page_source, "html.parser")

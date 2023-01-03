@@ -7,6 +7,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome import service as fs
 from fake_useragent import UserAgent
 from webdriver_manager.chrome import ChromeDriverManager
 
@@ -69,24 +71,25 @@ def get_domain_info():
     options.add_argument(f'user-agent={ua.chrome}')
 
     try:
-        driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+        chrome_service = fs.Service(executable_path=ChromeDriverManager().install())
+        driver = webdriver.Chrome(service=chrome_service, options=options)
         
         driver.get(url)
         driver.set_window_size(1200, 1053)
         
-        driver.find_element_by_id("session_muu_id").send_keys(login)
-        driver.find_element_by_id("session_password").send_keys(password)
-        driver.find_element_by_name("button").send_keys(Keys.ENTER)
+        driver.find_element(By.ID, "session_muu_id").send_keys(login)
+        driver.find_element(By.ID, "session_password").send_keys(password)
+        driver.find_element(By.NAME, "button").send_keys(Keys.ENTER)
         
         logger.info('muu_muu_domain: login')
         sleep(5)
         
-        driver.find_element_by_link_text("ドメイン一覧(すべて)へ").send_keys(Keys.ENTER)
+        driver.find_element(By.LINK_TEXT, "ドメイン一覧(すべて)へ").send_keys(Keys.ENTER)
         
         logger.info('muu_muu_domain: go to all-domain-list')
         sleep(5)
         
-        dropdown = driver.find_element_by_name("limit")
+        dropdown = driver.find_element(By.NAME, "limit")
         select = Select(dropdown)
         select.select_by_value('1000')
         
